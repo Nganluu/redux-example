@@ -10,17 +10,15 @@ import productsReducer from './reducers/product-reducer'
 import userReducer from './reducers/user-reducer'
 import thunk from 'redux-thunk'
 
+console.log(userReducer);
+
 const middleWare =[thunk]
 const allReducers = combineReducers({
-    products: productsReducer,
     user: userReducer
 })
 const store = createStore(
     allReducers,
-    {
-        products: [{ name: 'iPhone' }],
-        user: 'Michael'
-    },
+    {},
     applyMiddleware(...middleWare)
 );
 console.log(store.getState())

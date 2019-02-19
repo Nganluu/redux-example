@@ -4,11 +4,24 @@ import './App.css';
 import {updateUser} from './actions/user-action'
 import {connect} from 'react-redux'
 class App extends Component {
+  state = {
+    mail: ''
+  }
+
   onUpdateUser = () => {
-    this.props.updateUser()
+    this.props.updateUser(this.state.mail);
+  }
+
+  changeMail(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    console.log(this.state.mail);
   }
   render() {
-    console.log(this.props)
+    console.log(this.props);
+    const user = this.props.userMail;
+    console.log(user);
     return (
       <div className="App">
         <header className="App-header">
@@ -25,7 +38,12 @@ class App extends Component {
             Learn React
           </a>
         </header>
-        <div onClick={this.onUpdateUser}>Show all</div>
+        <input type="text" name="mail" onChange={this.changeMail.bind(this)}></input>
+        <button onClick={this.onUpdateUser}>Show User Infor</button>
+        {user.map(({email}) => (
+          <p key={email}>{email}</p>
+        ))}
+    
       </div>
     );
   }
@@ -33,12 +51,12 @@ class App extends Component {
 const mapStatetoProps = (state, props) => {
   return {
     products: state.products,
-    userMail: state.userMail,
+    userMail: state.user,
   }
 
 }
 
-const mapActiontoProps = (dispatch) => ({
-  updateUser: ()=> dispatch(updateUser)
-})
-export default connect(mapStatetoProps, mapActiontoProps)(App);
+// const mapActiontoProps = (dispatch) => ({
+//   updateUser: ()=> dispatch(updateUser())
+// })
+export default connect(mapStatetoProps, {updateUser})(App);
